@@ -8,18 +8,18 @@ import {
   WhiteSpace,
   Button
 } from 'antd-mobile'
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 
 import Logo from '../../components/logo/logo'
-
-export default class Login extends Component {
+import { login } from '../../redux/actions'
+class Login extends Component {
   state = {
     username: '',
     password: ''
   }
 
-  login = () => {
-    console.log('Login', this.state)
-  }
+  // 处理输入框/单选框变化, 收集数据到state
   handleChange = (name, val) => {
     this.setState({
       [name]: val
@@ -28,12 +28,20 @@ export default class Login extends Component {
   toRegister = () => {
     this.props.history.replace('/register')
   }
+  login = () => {
+    this.props.login(this.state)
+  }
   render() {
+    const { redirectTo, msg } = this.props
+    if (redirectTo) {
+      return <Redirect to={redirectTo} />
+    }
     return (
       <div>
         <NavBar>BOSS直聘</NavBar>
         <Logo />
         <WingBlank>
+          {msg ? <p className='error-msg'>{msg}</p> : null}
           <List>
             <InputItem
               placeholder='输入用户名'
@@ -60,3 +68,5 @@ export default class Login extends Component {
     )
   }
 }
+
+export default connect(state => state.user, { login })(Login)

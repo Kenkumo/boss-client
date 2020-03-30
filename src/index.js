@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import store from './redux/store'
 import Login from './containers/login/login';
 import Register from './containers/register/register';
+import './assets/index.less';
 import Main from './containers/main/main';
 
 ReactDOM.render(
